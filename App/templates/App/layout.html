@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{% static 'App/laystyles/main/main.css' %}">
+    <link rel="stylesheet" href="{% static 'App/styles/main/main.css' %}">
     {% block customStyles %}{% endblock %}
 
     <style>
@@ -34,7 +34,7 @@
 
     <nav class="d-flex justify-content-between align-items-center pl-3 pr-3">
       <a href="{% url 'index' %}" class="btn btn-default logo">
-        <img src="{% static 'App/layimages/royalLogo.png' %}" width="150px" height="70px" alt="">
+        <img src="{% static 'App/images/royalLogo.png' %}" width="150px" height="70px" alt="">
       </a>
       <div class="navbar d-md-flex" style="display: none;">
         <a href="{% url 'index' %}" class="nav-item btn btn-outline-warning mr-5 {% block active%}{% endblock %}">Home</a>
