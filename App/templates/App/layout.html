@@ -1,0 +1,382 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>ROYAL HOTEL</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'App/laystyles/main/main.css' %}">
+    {% block customStyles %}{% endblock %}
+
+    <style>
+      /* Make the image fully responsive */
+      .carousel-inner img {
+        width: 100%;
+        height: 100%;
+      }
+      @media (max-width: 766.99px){
+        .logo img{
+          width: 70px;
+          height: 40px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+
+    {% block sliderImg %}
+    {% endblock %}
+
+    <nav class="d-flex justify-content-between align-items-center pl-3 pr-3">
+      <a href="{% url 'index' %}" class="btn btn-default logo">
+        <img src="{% static 'App/layimages/royalLogo.png' %}" width="150px" height="70px" alt="">
+      </a>
+      <div class="navbar d-md-flex" style="display: none;">
+        <a href="{% url 'index' %}" class="nav-item btn btn-outline-warning mr-5 {% block active%}{% endblock %}">Home</a>
+        <a href="{% url 'allRooms' %}" class="nav-item btn btn-outline-warning mr-5 {% block bookingActive%}{% endblock %}">Book a Room</a>
+        <div onclick="$('#aboutPage').show()" class="nav-item btn btn-outline-warning mr-5">About</div>
+        <div onclick="$('#contactUs').show()" href="{% url 'index' %}" class="nav-item btn btn-outline-warning mr-5">
+          Contact</div>
+        {% if user.is_authenticated %}
+        <a href="{% url 'logout_view' %}" class="nav-item btn btn-outline-warning mr-5">Log Out</a>
+        <a href="{% url 'profile' %}" title="{{ request.user }}" class="nav-item d-flex justify-content-center align-items-center" style="width: 35px; height: 35px; border-radius:50%; border: 2px solid gold;">
+          <i class="fa fa-user text-warning"></i>
+        </a>
+        {% else %}
+        <div onclick="$('#checkIn').show();" class="nav-item btn btn-outline-warning">Check In</div>
+        {% endif %}
+      </div>
+      <div class="d-md-none">
+        <i onclick="$('.fa-bars').hide();$('.fa-window-close').show();$('.navbar').show();$('.go-up').hide()"
+          class="fa fa-bars text-warning" style="font-size: 3rem;"></i>
+        <i onclick="$('.fa-window-close').hide();$('.fa-bars').show();$('.navbar').hide();$('.go-up').show()"
+          class="fa fa-window-close text-warning" style="display: none; font-size: .5rem;"></i>
+      </div>
+    </nav>
+
+    {% block heaDer %}
+    {% endblock %}
+
+    <main>
+      {% block body %}
+      {% endblock %}
+    </main>
+
+    <section class="bg-dark pt-5">
+      <div class="text-center base-color mb-3">
+        <h2><b>ROYAL HOTEL</b></h2>
+      </div>
+      <p class="bg-warning mb-3" style="height: 2px; width: 80%; margin: auto;"></p>
+
+      <div class="container">
+        <div class="row text-warning">
+
+          <div class="col-12 col-md-6 pb-5 pb-md-0 pl-5 pr-5 text-center">
+            <div class="text-center">
+              <h3><b class="text-white">CONTACT US</b></h3>
+            </div>
+            <div class="mt-5">
+              <div>
+                <i class="fa fa-phone mr-2"></i>
+                <span>+234 800 000 0000</span>
+              </div>
+              <div>
+                <i class="fa fa-envelope mr-2"></i>
+                <span>royal@hotel.com</span>
+              </div>
+              <div>
+                <i class="fa fa-map-marker mr-2"></i>
+                <span>97, off Awolowo rd. Sango, Ogun State, Nigeria</span>
+              </div>
+            </div>
+          </div>
+          <!-- CONTACT US -->
+
+          <div class="col-12 col-md-6 pl-5 pr-5">
+            <div class="text-center">
+              <h3><b class="text-white">QUICK LINKS</b></h3>
+            </div>
+            <div class="row mt-5">
+
+              <div class="col-6 mb-3 pl-3 pr-3">
+                <a href="/" class="btn btn-outline-warning w-100">Home</a>
+              </div>
+
+              <div class="col-6 mb-3 pl-3 pr-3">
+                <a href="{% url 'allRooms' %}" class="btn btn-outline-warning w-100">Book a Room</a>
+              </div>
+
+              <div onclick="$('#aboutPage').show()" class="col-6 mb-3 pl-3 pr-3">
+                <div class="btn btn-outline-warning w-100">About</div>
+              </div>
+
+              <div onclick="$('#checkIn').show();" class="col-6 mb-3 pl-3 pr-3">
+                <div class="btn btn-outline-warning w-100">Check In</div>
+              </div>
+
+            </div>
+          </div>
+          <!-- QUICK LINKS -->
+
+        </div>
+
+        <div class="text-center pt-3 pb-3">
+          Powered by Mazino <i class="fa fa-copyright"></i> 2020
+        </div>
+      </div>
+    </section>
+    <!-- footer -->
+
+    <!-- go up -->
+    <div class="go-up" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;">
+      <a href="#" class="d-flex justify-content-center align-items-center"
+        style="width: 50px; height: 50px; background: gold;">
+        <i class="fa fa-caret-up text-dark"></i>
+      </a>
+    </div>
+    <!-- go up -->
+
+    <!-- About Page -->
+    <div id="aboutPage" class="about bg-white"
+      style="display:none; position: fixed; top: 15vh; left: 10%; width: 80%; height: 400px; padding-top: 50px; z-index: 999999;">
+      <div class="closeAbout" style="position: fixed; top: 15vh; right: 130px; z-index: 999999999999;">
+        <i onclick="$('#aboutPage').hide()" class="fa fa-window-close text-warning"
+          style="cursor: pointer; font-size: 3rem;"></i>
+      </div>
+      <div class="container-fluid">
+        <div class="row">
+
+          <div class="col-4 pl-3 pr-3">
+            <div class="d-flex flex-column justify-content-center align-items-center"
+              style="height: 300px; border: solid black; color: gold;">
+              <h1><b>ROYAL</b></h1>
+              <h1><b>HOTEL</b></h1>
+            </div>
+          </div>
+
+          <div class="col-8 text-white">
+            <div>
+              <div class="text-center" style="color: black;">
+                <h3><b>About us</b></h3>
+              </div>
+
+              <p class="pr-5 pl-5 text-dark">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed nihil corrupti quos placeat architecto
+                deserunt eveniet suscipit cupiditate. Doloremque quia distinctio sed minima, cupiditate porro obcaecati
+                numquam voluptatem cum vel. Quidem sunt corporis nostrum eveniet quibusdam itaque iusto dolores laborum!
+              </p>
+
+              <div class="d-flex justify-content-around text-warning">
+                <div class="d-flex">
+                  <i class="fa fa-phone mr-2"></i>
+                  <span>+234 800 000 0000</span>
+                </div>
+                <div>
+                  <i class="fa fa-envelope mr-2"></i>
+                  <span>royal@hotel.com</span>
+                </div>
+                <div>
+                  <i class="fa fa-map-marker mr-2"></i>
+                  <span>97, off Awolowo rd. Sango, Ogun State, Nigeria</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- About Page -->
+
+    <!-- Contact Us -->
+    <div id="contactUs" class="contact bg-white"
+      style="display:none; position: fixed; top: 15vh; left: 10%; width: 80%; height: 400px; padding-top: 50px; z-index: 999999;">
+      <div class="closeContactUs" style="position: fixed; top: 15vh; right: 130px; z-index: 999999999999;">
+        <i onclick="$('#contactUs').hide()" class="fa fa-window-close text-warning"
+          style="cursor: pointer; font-size: 3rem;"></i>
+      </div>
+      <div class="container-fluid">
+        <div class="row">
+
+          <div class="col-12 text-white">
+            <div>
+              <div class="text-center" style="color: black;">
+                <h3><b>Contact Us</b></h3>
+              </div>
+
+              <p class="pr-5 pl-5 text-dark">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed nihil corrupti quos placeat architecto
+                deserunt eveniet suscipit cupiditate. Doloremque quia distinctio sed minima, cupiditate porro obcaecati
+                numquam voluptatem cum vel. Quidem sunt corporis nostrum eveniet quibusdam itaque iusto dolores laborum!
+              </p>
+
+              <div class="d-flex justify-content-around text-warning">
+                <div class="d-flex">
+                  <i class="fa fa-phone mr-2"></i>
+                  <span>+234 800 000 0000</span>
+                </div>
+                <div>
+                  <i class="fa fa-envelope mr-2"></i>
+                  <span>royal@hotel.com</span>
+                </div>
+                <div>
+                  <i class="fa fa-map-marker mr-2"></i>
+                  <span>97, off Awolowo rd. Sango, Ogun State, Nigeria</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- Contact Us -->
+
+    <!-- Check In -->
+    <div id="checkIn" class="check-in">
+      <div class="check-in-header bg-warning" style="padding: 10px 5px; text-align: center; position: relative;">
+        <h3><b>Check In</b></h3>
+        <div onclick="$('#checkIn').hide();" style="cursor: pointer; position: absolute; top: 15px; right: 20px;"><i
+            class="fa fa-window-close text-dark" style="font-size: 2rem;"></i></div>
+      </div>
+      <div class="check-in-body pl-2 pr-2 mt-4">
+        <form action="" id="checkInForm">
+          <div class="form-group mb-4">
+            <input type="email" name="email" id="checkInFormEmail" class="form-control" placeholder="Email" required
+              style="background: transparent;">
+          </div>
+          <div class="form-group">
+            <input type="password" name="password" id="checkInFormPassword" class="form-control" placeholder="password" required>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <div onclick="$('#checkIn').hide();$('#reGister').show();" class="text-warning" style="cursor: pointer;">
+              Register?</div>
+            <input type="submit" value="Check In" class="btn btn-outline-warning">
+          </div>
+        </form>
+
+      </div>
+    </div>
+    <!-- Check In -->
+
+    <!-- Register -->
+    <div id="reGister">
+      <div class="register">
+        <div class="register-header bg-warning" style="padding: 10px 5px; text-align: center; position: relative;">
+          <h3><b>REGISTER</b></h3>
+          <div onclick="$('#reGister').hide();" style="cursor: pointer; position: absolute; top: 15px; right: 20px;"><i
+              class="fa fa-window-close text-dark" style="font-size: 2rem;"></i></div>
+        </div>
+        <div class="register-body pl-3 pr-3 pb-3 mt-3">
+          <form action="register_view" method="POST">
+
+            <div class="row">
+              <div class="col-6 pl-3 pr-3">
+                <div class="form-group">
+                  <input required type="text" name="fname" id="fname" class="form-control" placeholder="First Name">
+                </div>
+              </div>
+              <div class="col-6 pl-3 pr-3">
+                <div class="form-group">
+                  <input required type="text" name="lname" id="lname" class="form-control" placeholder="Last Name">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6 pl-3 pr-3">
+                <div class="form-group">
+                  <select required class="custom-select" name="meansOfId" id="meansOfId">
+                    <option selected>Means of ID</option>
+                    <option value="PVC">PVC</option>
+                    <option value="NIN">NIN</option>
+                    <option value="Driver License">Driver License</option>
+                    <option value="International Pastport">International Pastport</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-6 pl-3 pr-3">
+                <div class="form-group">
+                  <input required type="number" name="idNumber" id="idNumber" class="form-control"
+                    placeholder="ID Number">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6 pl-3 pr-3">
+                <div class="form-group">
+                  <input required type="tel" name="tel" id="tel" class="form-control" placeholder="Mobile Number">
+                </div>
+              </div>
+              <div class="col-6 pl-3 pr-3">
+                <div class="row">
+                  <div class="col-6 pl-3 pr-3">
+                    <div class="form-group">
+                      <input required type="date" name="dob" id="dob" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col-6 pl-3 pr-3">
+                    <p style="color: rgb(163, 163, 163)">DOB (Optional)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <input required type="text" name="password" id="password" class="form-control" placeholder="Password">
+            </div>
+
+            <div class="form-group">
+              <input required type="email" name="email" id="email" class="form-control" placeholder="Email: Someone@example.com">
+            </div>
+
+            <div class="form-group">
+              <input required type="text" name="address" id="address" class="form-control" placeholder="Full Address">
+            </div>
+
+            <div class="text-right">
+              <input type="submit" class="btn btn-outline-warning active" value="Register">
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Register -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'App/layscripts/main.js' %}"></script>
+
+    <script>
+      $('#checkInForm').on('submit', (e) => {
+        e.preventDefault();
+        
+        fetch('login_view', {
+          method: 'POST',
+          body: JSON.stringify({
+            email: $('#checkInFormEmail').val(),
+            password:$('#checkInFormPassword').val()
+          })
+        })
+        .then(res => res.json())
+        .then(res => {
+          if (res.msg == 'User not found!') {
+            alert(res.msg)
+          }else{
+            location.reload()
+          }
+        })
+      })
+    </script>
+    {% block customScript %}{% endblock %}
+  </body>
+
+</html>

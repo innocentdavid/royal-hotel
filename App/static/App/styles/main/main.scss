@@ -1,0 +1,99 @@
+$base-color: gold;
+.base-color {
+  color: $base-color;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.carousel-inner img {
+  min-height: 100vh !important;
+  max-height: 100vh !important;
+}
+
+header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba($color: #000000, $alpha: 0.8);
+  color: white;
+}
+
+header h1 {
+  font-family: "Arial Narrow Bold", sans-serif;
+  font-size: 5rem;
+  font-weight: 900;
+  color: $base-color;
+  display: flex;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 0;
+  z-index: 99;
+}
+
+.navJsIndex {
+  background: rgba($color: #000000, $alpha: 0.8);
+}
+.navJs {
+  background: rgba($color: #000000, $alpha: 1);
+}
+
+.check-in {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 300px;
+  padding-bottom: 5px;
+  z-index: 999999;
+  background: rgba($color: #000000, $alpha: 0.8);
+}
+
+#reGister {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba($color: #000000, $alpha: 0.8);
+  z-index: 999999999999999999;
+}
+
+.register {
+  margin-left: 10%;
+  width: 80%;
+  margin-top: 7%;
+  background: white;
+}
+
+@media (max-width: 767px) {
+  header h1 {
+    font-size: 50px;
+    display: block;
+  }
+  .navbar {
+    width: 70%;
+    height: 100vh;
+    background: black !important;
+    color: $base-color;
+  }
+  .nav-item {
+    display: block;
+  }
+  .fa-window-close {
+    position: fixed;
+    top: 10vh;
+    left: 20px;
+  }
+}

@@ -1,0 +1,215 @@
+{% extends "App/layout.html" %}
+{% load static %}
+
+{% block bookingActive%}active{% endblock %}
+
+{% block customStyles %}
+<style>
+    #bSummaryCont {
+      display: none; 
+    }
+    
+    .bookingCont, #bSummaryCont {
+      margin-top: 15vh;
+      margin-left: 5%;
+      width: 90%;
+      padding: 0;
+        }
+
+    @media (min-width: 767px) {
+        .bookingCont, #bSummaryCont {
+            margin-left: 20%;
+            width: 60%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+
+<div id="bookingContId" class="container-fluid bookingCont">
+    <div class="text-center text-dark bg-warning p-3">
+        <h2><b>CUSTOMER PREFERENCE</b></h2>
+    </div>
+
+    <form action="" class="bookingform mb-5 pb-5" style="padding: 20px 5%; border: solid black; border-top: none;">
+        <input type="hidden" name="roomId" id="roomId" value="{{ roomId }}">
+        <input type="hidden" id="price" value="{{ price }}">
+        <input type="hidden" id="parking_charge" value="{{ parking_charge }}">
+
+        <div class="d-flex justify-content-around align-items-center">
+            <div>Lodging on</div>
+            <input required type="date" name="start" id="bookingFormDate" class="form-control" placeholder="Date" style="width: 200px;">
+        </div>
+        <hr>
+
+        <div class="d-flex justify-content-around align-items-center">
+            <div>How many night(s)</div>
+            <input onchange="total();" type="number" name="night" id="nightsInp" class="form-control" style="width: 100px;" value="1">
+        </div>
+        <hr>
+
+        <div class="d-flex justify-content-around align-items-center">
+            <div>Adult</div>
+            <input type="number" name="adult" id="adult" class="form-control" style="width: 100px;" value="1" max="2">
+        </div>
+        <hr>
+
+        <div class="d-flex justify-content-around align-items-center">
+            <div>children</div>
+            <input type="number" name="children" id="children" class="form-control" style="width: 100px;" value="0"
+                max="3">
+        </div>
+        <hr>
+
+        <div class="d-flex justify-content-around align-items-center">
+            <div>car(s)</div>
+            <input onchange="total();" type="number" name="car" id="car" class="form-control" style="width: 100px;" value="0">
+        </div>
+        <hr>
+
+        <div class="d-flex justify-content-around align-items-center">
+            <div>Pick Up</div>
+            <input onchange="on('pickUp')" type="checkbox" name="pickUp" id="pickUp" class="form-control" value="off" style="width: 70px;">
+        </div>
+        <hr>
+
+        <div class="d-flex justify-content-around align-items-center">
+            <div>Drop Off</div>
+            <input onchange="on('dropOff')" type="checkbox" name="dropOff" id="dropOff" class="form-control" value="off" style="width: 70px;">
+        </div>
+        
+        <div class="text-right mt-5">
+          <b>TOTAL</b> <span id="total"></span>
+        </div>
+
+        <div class="text-right mt-5">
+            <div onclick="total();" class="btn btn-warning mr-3"><i class="fa fa-calculator"></i></div>
+
+            <input type="submit" value="Book Now" class="submitF btn btn-warning">
+        </div>
+
+    </form>
+</div>
+
+<div id="bSummaryCont">
+    <div class="text-center text-dark bg-warning p-3">
+        <h2><b>Booking Summary</b></h2>
+    </div>
+
+    <div class="p-3" style="font-size: 1.3rem;">
+
+        <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+            <div>Room Number</div>
+            <div id="bnRoomNo"></div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+            <div>Night(s)</div>
+            <div id="bnNight"></div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+            <div>Lodging on</div>
+            <div id="bnDate"></div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+            <div>Call this number for your Pick Up</div>
+            <div id="bnPickUp"></div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+            <div>Call this number for your Drop Off</div>
+            <div id="bnDropOff"></div>
+        </div>
+        <hr>
+
+        <div class="text-right mt-3 mb-3">
+            <h3><b>Total</b> N<span class="bnTotal"></span></h3>
+        </div>
+
+        <div class="text-right mt-3 mb-3">
+            <h5><b>RRR</b> <span id="rrr"></span></h5>
+        </div>
+
+        <div class="mt-5 mb-3">
+            <p>Pay the sum of N<b class="bnTotal"></b> to any of our banks A/c below</p>
+            <div id="accounts">
+                {% for account in account %}
+                <div><b>{{ account.bank_name }}</b> - <i>{{ account.acc_no }}</i> - {{ account.acc_name }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="mt-5">
+            <a href="/" class="btn btn-danger mr-5">Close</a>
+            <a href="profile" class="btn btn-warning">Profile</a>
+        </div>
+        
+    </div>
+</div>
+
+{% endblock %}
+
+{% block customScript %}
+<script>
+    $('nav').addClass('navJs');
+    
+    total();
+    
+    function total(){
+      const roomPrice = $('#price').val();
+      const parking_charge = $('#parking_charge').val();
+      const car = $('#car').val();
+      const night = $('#nightsInp').val();
+      const total = (roomPrice*night)+(parking_charge*car);
+      $('#total').html(total);
+    }
+
+    function on(e){
+        if ($('#'+e).val() == 'off') {
+            $('#'+e).val('on')
+        } else {
+            $('#'+e).val('off')
+        }
+    }
+
+    $('.bookingform').on('submit', (e) => {
+      e.preventDefault();
+      const data = $('form').serialize();
+      console.log(data);
+      fetch('booking', {
+        method: 'POST',
+        body: JSON.stringify({
+            roomId: $('#roomId').val(),
+            date: $('#bookingFormDate').val(),
+            night:$('#nightsInp').val(),
+            adult:$('#adult').val(),
+            children:$('#children').val(),
+            car:$('#car').val(),
+            pickUp:$('#pickUp').val(),
+            dropOff:$('#dropOff').val(),
+        })
+      })
+      .then(res => res.json())
+      .then(res => {
+        if (res.msg == 'success') {
+            $('#bnRoomNo').text(res.roomId);
+            $('#bnNight').text(res.night);
+            $('#bnDate').text(res.StartDate);
+            $('#bnPickUp').text(res.driver1);
+            $('#bnDropOff').text(res.driver2);
+            $('#rrr').text(res.rrr);
+            $('.bnTotal').text(res.total);
+
+            $('#bookingContId').fadeOut();
+            $('#bSummaryCont').fadeIn();
+        }else{
+          alert(res.msg)
+        }
+      })
+    })
+
+</script>
+{% endblock %}

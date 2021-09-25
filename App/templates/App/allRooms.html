@@ -1,0 +1,123 @@
+{% extends "App/layout.html" %}
+{% load static %}
+
+{% block bookingActive%}active{% endblock %}
+
+{% block customStyles %}
+
+{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid" style="margin-top: 18vh;">
+    <div class="text-center text-dark pt-5 mb-5" style="position: relative;">
+        <h2><b>ROOMS & RATES</b></h2>
+        <div style="position: absolute; top: 50px; right: 50px; font-size: 1.5rem; cursor: pointer;">
+            <div class="dropdown">
+                <div class="dropdown-toggle" id="triggerId" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    <i class="fa fa-filter"></i> filter
+                </div>
+                <div class="dropdown-menu" aria-labelledby="triggerId">
+                    <h6 class="dropdown-header">Room Categories</h6>
+                    <a class="dropdown-item" href="{% url 'allRooms' %}">All</a>
+                    <div id="options">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>Category: <b id="catgName">All</b></h3>
+
+    <div class="row mt-5" id="rooms"></div>
+</div>
+
+{% endblock %}
+
+{% block customScript %}
+<script ></script>
+<script>
+    $('nav').addClass('navJs');
+
+    getCatg();
+    function getCatg() {
+        fetch('getCatg',{
+            method:'POST',
+        })
+        .then(res => res.json())
+        .then(data => {
+            option = '';
+            data.forEach(catg => {
+                option += `
+                    <div onclick="getRoomByCatg('${catg.id}'); $('#catgName').text('${catg.category}')" class="dropdown-item">${catg.category}</div>
+                `;
+            });
+            $('#options').html(option)
+        })
+    }
+
+    getAllRooms('all')
+    function getAllRooms(filter) {
+        fetch('getRooms', {
+          method: 'POST',
+          body: JSON.stringify({    
+            filter: filter,
+            limit: 12,
+          })
+        })
+        .then(res => res.json())
+        .then(data => {
+            // console.log(data);
+            rooms = '';
+            data.forEach(room => {
+              rooms +=`
+                    <div class="col-12 col-md-6 col-lg-4 pr-3 pl-3 mb-3">
+                        <div style="height: 250px; position: relative; border: solid;">
+                            <img src="${room.img_url}" width="100%" height="100%">
+                            <div style="position: absolute; bottom: 10px; left: 0; width: 100%;">
+                                <a href="booking?room=${room.id}" class="btn btn-sm btn-outline-warning active"><h3><b>${room.roomName}</b></h3></a>
+                                <div class="text-right mt-5">
+                                    <a href="booking?room=${room.id}" class="btn btn-sm btn-outline-warning active"><b>N${room.price}/Night</b></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+              `;
+            });
+            $('#rooms').html(rooms);
+        })
+      }
+    
+    function getRoomByCatg(catg) {
+        fetch('getRooms', {
+          method: 'POST',
+          body: JSON.stringify({    
+            filter: catg,
+          })
+        })
+        .then(res => res.json())
+        .then(data => {
+            // console.log(data);
+            rooms = '';
+            data.forEach(room => {
+              rooms +=`
+                    <div class="col-12 col-md-6 col-lg-4 pr-3 pl-3 mb-3">
+                        <div style="height: 250px; position: relative; border: solid;">
+                            <img src="${room.img_url}" width="100%" height="100%">
+                            <div style="position: absolute; bottom: 10px; left: 0; width: 100%;">
+                                <a href="booking?room=${room.id}" class="btn btn-sm btn-outline-warning active"><h3><b>${room.roomName}</b></h3></a>
+                                <div class="text-right mt-5">
+                                    <a href="booking?room=${room.id}" class="btn btn-sm btn-outline-warning active"><b>N${room.price}/Night</b></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+              `;
+            });
+            $('#rooms').html(rooms);
+        })
+      }
+</script>
+{% endblock %}

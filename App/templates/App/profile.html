@@ -1,0 +1,87 @@
+{% extends "App/layout.html" %}
+{% load static %}
+
+{% block customStyles %}
+<style>
+    .profileCont {
+        margin-top: 15vh;
+        margin-left: 5%;
+        width: 90%;
+        padding: 0;
+    }
+
+    @media (min-width: 767px) {
+        .profileCont {
+            margin-left: 20%;
+            width: 60%;
+        }
+    }
+</style>
+{% endblock customStyles %}
+
+{% block body %}
+
+<div class="profileCont">
+    <div class="text-center text-dark bg-warning p-3">
+        <h1>Welcome</h1> <h2><b>{{ request.user }}</b></h2>
+    </div>
+
+    <div class="p-3" style="font-size: 1.3rem;">
+
+        {% for customer in customer %}
+
+            <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+                <div>Room Number</div>
+                <div>{{ customer.room_no }}</div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+                <div>Night(s)</div>
+                <div>{{ customer.night }}</div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+                <div>Price</div>
+                <div>{{ customer.price }}</div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+                <div>Arrival</div>
+                <div>{{ customer.lodgeIn }}</div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+                <div>Departure</div>
+                <div>{{ customer.lodgeOut }}</div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+                <div>Pick Up</div>
+                <div>
+                    <div>{{ customer.pick_up_driver.fname }}</div>
+                    <div>{{ customer.pick_up_driver.car }}</div>
+                    <div><a href="tel:{{ customer.pick_up_driver.tel }}">{{ customer.pick_up_driver.tel }}</a></div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+                <div>Drop Off</div>
+                <div>
+                    <div>{{ customer.drop_off_driver.fname }}</div>
+                    <div>{{ customer.drop_off_driver.car }}</div>
+                    <div><a href="tel:{{ customer.drop_off_driver.tel }}">{{ customer.drop_off_driver.tel }}</a></div>
+                </div>
+            </div>
+
+        {% endfor %}
+        
+    </div>
+</div>
+
+{% endblock body %}
+
+{% block customScript %}
+<script>
+    $('nav').addClass('navJs');
+</script>
+{% endblock customScript %}
